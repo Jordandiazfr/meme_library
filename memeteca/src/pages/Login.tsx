@@ -1,25 +1,14 @@
 import React, {useState } from 'react';
 /*  Components */
-//import Header from '../_header/Header'
+import getApi from '../typescript/GetApi'
+
 /* Libs */ 
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory } from "react-router-dom"
-import PropTypes from 'prop-types';
+import { Formik, Field, Form, ErrorMessage} from 'formik';
 import axios from "axios"
 import dotenv from "dotenv"
 /* assets */ 
 import './Login.css';
-
-dotenv.config()
-
-/* Env vars */ 
-const noenv: string = "CONFIGURE YOUR ENV VARS"
-const environment = process.env.REACT_APP_ENV!
-const api_dev = process.env.REACT_APP_API_DEV!
-const api_prod = process.env.REACT_APP_API_PROD!
-
-/* If the ENV environment is active then our api is in Localhost */ 
-let api_url: string 
-environment == "DEV"? (api_url = api_dev) : (api_url = api_prod)
 
 
 type Props ={
@@ -31,10 +20,16 @@ export default function Login(props: any) {
   const [password, setPassword] = useState('')
   const [login, setLogin] = useState(false)
   const [error, setError] = useState("")
- 
-async function loginUser() {
 
-  let data = await axios.post(api_url+"/login", {
+  const initialValues={
+    username: "",
+    password: ""
+  }
+
+
+
+async function loginUser() {
+  let data = await axios.post(getApi()+"/login", {
     headers:{'Content-Type' : 'application/json'},
     credentials: {
       username,
@@ -51,10 +46,10 @@ async function loginUser() {
 
 /* Handle the FORM SENT */
 let from_url = props.url
+
 let history = useHistory();
 
-async function handleSubmit(e: any) {
-  e.preventDefault();
+async function handleSubmit() {
   const loginData =  await loginUser()
   // Login was succesfull 
   console.log(loginData)
@@ -65,37 +60,40 @@ async function handleSubmit(e: any) {
     //history.push("/")
     setLogin(true)
     props.loginStatus(true)
-    history.push("/")
+    //history.push("/")
   }
 
 }
 
-
   return (
-    <>
-    <div className="login-wrapper">
-      <h1 className="title">LOGIN FORM </h1>
-      {error==""? "": <p>{error}</p>}
-      <br />
-      <form className="form" onSubmit={ 
-        handleSubmit
-        }>
+    <div className="container-form">
 
-        <h1 className="title-login">Please Sign in</h1>
-        <div className="form_username">
-          <h3>Username</h3>
+      <h1 className="title">Please Sign in 🧐</h1>
+
+      {error==""? "": <p className="error">{error}</p>}
+
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+
+      { props => (    
+      <form className="form-auth" onSubmit={props.handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="inputUsername">E-mail</label>
           <input id="inputUsername" placeholder="Username" onChange={e => setUsername(e.target.value)}/>
         </div>
-        <div className="form_password">
-          <h3>Password</h3>
-          <input id="inputPassword" placeholder="Password" type="text" onChange={e => setPassword(e.target.value)}
+
+        <div className="form-group">
+        <label htmlFor="inputPassword"> Password</label>
+          <input id="inputPassword" placeholder="Password" type="password" onChange={e => setPassword(e.target.value)}
           />
         </div>
-        <div className="form_button">
-          <button type="submit">Login</button>
-        </div>
+
+
+          <button type="submit" className="btn-login">Login</button>
+
       </form>
+
+       )}
+    </Formik>
     </div>
-    </>
   )
 }
