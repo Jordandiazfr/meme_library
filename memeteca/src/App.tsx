@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 /* Local Components */
 import Upload from "./pages/Upload";
 import HotMemes from "./pages/Hotmemes";
-import Generator from "./pages/_GenerateMeme/Generator";
+import Create from "./pages/_GenerateMeme/Create";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Hbutton from "./components/Hbutton";
@@ -92,8 +92,7 @@ function App() {
         <div className="wrapper">
           <Switch>
             <Route exact path="/">
-              {/*  LOGOUT */}
-             {console.log("jojooo" + logged)}
+              {/*  HOT MEMES */}
               <HotMemes isLogged={logged} />
             </Route>
 
@@ -128,7 +127,7 @@ function App() {
 
             {/* <CreateMeme /> */}
             <Route path="/create">
-              <Generator />
+              <Create />
             </Route>
 
           </Switch>
