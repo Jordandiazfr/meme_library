@@ -180,9 +180,6 @@ max-width: 15rem;
 
 }
 
-.blade-menu li:hover {
-
-}
 @media only screen and (min-device-width : 320px) and (max-device-width : 600px)  {
   html {
     width: 100%;
@@ -218,5 +215,20 @@ max-width: 15rem;
 
   .profile-btn {
     display: none;
+  }
+
+  /* Create meme */ 
+  .form-create {
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .group-inputs {
+  background-color: #8340FF;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   }
 }
