@@ -1,0 +1,13 @@
+FRONT
+
+docker run -itd -p 5000:5000 -w /app -v ${PWD}://app frontend:test
+ docker run -itd -p 5000:5000 -p 3000:3000 -w //app -v ${PWD}://app --network memenetwork frontend:dev
+
+BACK 
+
+docker run -itd -p 4000:4000 -p 27017:27017 -p 10255:10255 -w /app -v ${PWD}://app server:test
+
+
+DB
+
+docker run -itd -p 27017:27017 --network memenetwork mongo

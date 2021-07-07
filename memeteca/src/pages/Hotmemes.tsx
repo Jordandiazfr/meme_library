@@ -17,7 +17,7 @@ export default function HotMemes ({isLogged}: any) {
         async function getData()  {
             await axios.get(getApi()+"/memes").then( (res) => { /* api_url */ 
                 // Check if the memes arrived
-
+                console.log(res.data)
                 setMemes(res.data)
                 setLoadingMemes(false)
             })

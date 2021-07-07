@@ -1,10 +1,8 @@
-# We strongly recommend using the required_providers block to set the
-# Azure Provider source and version being used
 terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=2.57.0"
+      version = "=2.66.0"
     }
   }
 }
@@ -17,7 +15,7 @@ provider "azurerm" {
 
 #Import variables 
 variable "rg_name" {
-  default = "JTFMemeteca"
+  default = "memeteca-dev"
 }
 
 variable "rg_location" {
@@ -29,7 +27,7 @@ variable "failover_location" {
 }
 
 variable "prefix" {
-  default = "JTF-"
+  default = "memeteca"
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -37,13 +35,12 @@ resource "azurerm_resource_group" "rg" {
   location = var.rg_location
 }
 
-
 resource "azurerm_cosmosdb_account" "db" {
-  name                = "memetecacosmos"
+  name                = "${var.prefix}cosmosdev"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   offer_type          = "Standard"
-  kind                = "GlobalDocumentDB"
+  kind                = "MongoDB"
 
   enable_automatic_failover = true
 
@@ -61,16 +58,16 @@ resource "azurerm_cosmosdb_account" "db" {
 
   consistency_policy {
     consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 10
-    max_staleness_prefix    = 200
+    max_interval_in_seconds = 400
+    max_staleness_prefix    = 200000
   }
 
-/*
+
   geo_location {
     location          = var.failover_location
     failover_priority = 1
   }
-*/
+
   geo_location {
     location          = azurerm_resource_group.rg.location
     failover_priority = 0
@@ -89,13 +86,13 @@ resource "azurerm_cosmosdb_mongo_database" "db" {
 
 # Mongo first collection 
 
-#Users 
-# resource "azurerm_cosmosdb_mongo_collection" "users" {
-#   name                = "users"
-#   resource_group_name = azurerm_cosmosdb_account.db.resource_group_name
-#   account_name        = azurerm_cosmosdb_account.db.name
-#   database_name       = azurerm_cosmosdb_mongo_database.db.name
-#   default_ttl_seconds = "777"
-#   shard_key           = "_id"
-#   throughput          = 400
-# }
+#Memes 
+resource "azurerm_cosmosdb_mongo_collection" "users" {
+  name                = "MemesCollection"
+  resource_group_name = azurerm_cosmosdb_account.db.resource_group_name
+  account_name        = azurerm_cosmosdb_account.db.name
+  database_name       = azurerm_cosmosdb_mongo_database.db.name
+  default_ttl_seconds = "777"
+  shard_key           = "_id"
+  throughput          = 400
+}

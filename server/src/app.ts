@@ -26,7 +26,7 @@ app.use(cors())
 
 /* Home Route */ 
 app.get('/', (req, res) => {
-  res.send('Memeteca  API')
+  res.send('Memeteca  API 2')
 });
 
 /* LOGIN Route */

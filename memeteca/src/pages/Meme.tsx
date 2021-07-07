@@ -33,7 +33,7 @@ await axios.delete(getApi()+"/deletememe", {
                     <img className="meme" src={data.url}></img>
                         <div className="container-buttons">     
                         <MemeButton symbol="fa-thumbs-up" action={ likeiT} data={like} visible={true} />
-                        <MemeButton symbol="fa-thumbs-down" action={ likeiT} data={data.metadata.dislikes} visible={true} />
+                      { /*   <MemeButton symbol="fa-thumbs-down" action={ likeiT} data={data.metadata.dislikes} visible={true} /> */}
                          { /* console.log("FROM MEME.tsx MY DATA IS " + data.name) */ }
                          <MemeButton symbol="fa-trash-alt" action={ () => Handledelete(data.url) } visible={canDelete} />
                     </div>
