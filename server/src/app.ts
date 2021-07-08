@@ -10,10 +10,11 @@ import registerRouter from './Routes/register';
 import loginRoute from './Routes/login';
 import { connect, display_users} from "./database/db" 
 
-dotenv.config()
+/* Secrets */ 
+import {port} from "./env"
 
-const key_jwt = process.env.SECRET_TOKEN
-const PORT = process.env.PORT || 4000;
+dotenv.config()
+const PORT = process.env.PORT || port;
 const app = express();
 
 /* BODY PARSER */ 

@@ -1,9 +1,7 @@
 //import * as bcrypt from "bcrypt"
 import mongoose, { ConnectOptions, Mongoose } from "mongoose"
-import dotenv from "dotenv"
-dotenv.config()
-
-const MONGOURI: string = process.env.MONGOURI || undefined
+import {MONGOURI} from "../env"
+  
 const collection = "memetecaDB"
 const userCollection = "users"
 const uniqueValidator = require('mongoose-unique-validator')

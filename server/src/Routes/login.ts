@@ -2,9 +2,13 @@ import express, {Request, Response} from 'express';
 import {loginUser} from "../database/db"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
+
+/* Secrets */ 
+import {jwtSecret} from "../env"
+
 dotenv.config()
 
-const key_jwt = process.env.SECRET_TOKEN
+const key_jwt = process.env.SECRET_TOKEN || jwtSecret
 
 interface Credentials {
     username: string,

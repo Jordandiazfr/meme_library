@@ -22,15 +22,13 @@ import {
 } from "react-router-dom";
 import useToken from "./typescript/useToken";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv"; // Dotenv is not effective  IN REACT
-import env from "@beam-australia/react-env"; // NEW ENV LIB
 /* Assets */
 import memetecaV2 from "./assets/img/MEMETECAV2.gif";
 import "./assets/style/App.css";
 
 /* Env vars */
-dotenv.config();
-const jwtSecret = process.env.REACT_APP_SECRET_TOKEN
+import {jwtSecret} from "./env"
+
 //console.log("SECRET "+jwtSecret)
 
 /* Props: any just for testing, will be removed  */

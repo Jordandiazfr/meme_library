@@ -1,16 +1,19 @@
-FROM node:14.13.0-alpine
-# Env
+FROM node:14.13.0
+
+RUN apt-get update
+RUN apt-get -y install vim
+RUN npm install -g typescript
 
 # Create Directory for the Container
 WORKDIR /usr/src/app
+
 # Only copy the package.json file to work directory
 COPY package.json .
-# Install all Packages
-RUN npm install
-# Copy all other source code to work directory
+RUN npm install 
+
 ADD . /usr/src/app
-# TypeScript
 RUN npm run build
-# Start
-CMD [ "npm", "start" ]
-EXPOSE 4000
+
+EXPOSE 4000 27017
+
+CMD [ "npm", "run", "dev"]
